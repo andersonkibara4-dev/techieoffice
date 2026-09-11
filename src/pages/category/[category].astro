@@ -1,0 +1,53 @@
+---
+import '../../styles/global.css';
+import { getCollection } from 'astro:content';
+import SEO from '../../components/SEO.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  
+  // Define all available categories on your site
+  const categories = ['Desk Setups', 'Organization', 'Ergonomics', 'Lighting'];
+
+  return categories.map(cat => {
+    const slug = cat.toLowerCase().replace(/\s+/g, '-');
+    const filteredPosts = allPosts.filter(p => 
+      p.data.category.toLowerCase().replace(/\s+/g, '-') === slug
+    );
+
+    return {
+      params: { category: slug },
+      props: { categoryName: cat, posts: filteredPosts }
+    };
+  });
+}
+
+const { categoryName, posts } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-950 text-slate-100 antialiased">
+  <head>
+    <SEO title={`${categoryName} Reviews`} description={`Browse ${categoryName} guides.`} type="website" />
+  </head>
+  <body class="min-h-screen flex flex-col font-sans">
+    <Header />
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full">
+      <h1 class="text-3xl font-black mb-8">{categoryName}</h1>
+      
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {posts.map(post => (
+            <div class="border border-slate-800 rounded-xl p-4 bg-slate-900">
+              <a href={`/blog/${post.slug}`} class="font-bold text-amber-400">{post.data.title}</a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-slate-400">No guides published under {categoryName} yet. Check back soon!</p>
+      )}
+    </main>
+    <Footer />
+  </body>
+</html>

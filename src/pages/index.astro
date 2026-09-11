@@ -1,17 +1,39 @@
 ---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
+const allPosts = await getCollection('blog');
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-slate-950 text-slate-100 antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <SEO title="TechieOffice — Intentional Workspaces for Deep Work" description="Discover field-tested minimal desk setups and ergonomic gear." type="website" />
+  </head>
+  <body class="min-h-screen flex flex-col font-sans">
+    <Header />
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-16 w-full">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h1 class="text-4xl sm:text-6xl font-black text-slate-100">Intentional Workspaces for <span class="text-amber-400">Deep Work</span>.</h1>
+        <p class="mt-6 text-slate-400 text-lg">Field-tested, unbiased reviews built by developers.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {allPosts.map((post) => (
+          <article class="rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col justify-between">
+            <a href={`/blog/${post.slug}`} class="aspect-video block bg-slate-950">
+              <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover" />
+            </a>
+            <div class="p-6">
+              <span class="text-amber-400 text-xs font-bold uppercase">{post.data.category}</span>
+              <h3 class="text-lg font-bold text-slate-100 mt-2"><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+            </div>
+          </article>
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </body>
 </html>

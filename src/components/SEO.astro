@@ -1,0 +1,38 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  heroImage?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  authorName?: string;
+  category?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  heroImage = 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=1200&q=80',
+  pubDate,
+  updatedDate,
+  authorName = 'TechieOffice Team',
+  category,
+  type = 'article'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://techieoffice.com');
+const imageURL = new URL(heroImage, Astro.site || 'https://techieoffice.com').href;
+---
+<title>{title} | TechieOffice</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL.href} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL.href} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />

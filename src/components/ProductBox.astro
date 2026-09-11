@@ -1,0 +1,77 @@
+---
+export interface Props {
+  id?: string;
+  badge?: string;
+  title: string;
+  rating: number;
+  reviewCount: number;
+  image: string;
+  imageAlt: string;
+  features: string[];
+  pros: string[];
+  cons: string[];
+  amazonUrl: string;
+  secondaryUrl?: string;
+  secondaryName?: string;
+  price?: string;
+}
+
+const {
+  id, badge = "Editor's Choice", title, rating, reviewCount, image, imageAlt,
+  features = [], pros = [], cons = [], amazonUrl, secondaryUrl, secondaryName = "Direct Site", price
+} = Astro.props;
+
+const stars = Array.from({ length: 5 }, (_, i) => i < Math.floor(rating));
+---
+<div id={id} class="product-box my-10 rounded-2xl border border-slate-800 bg-slate-900/90 p-5 sm:p-7 shadow-2xl relative overflow-hidden">
+  {badge && (
+    <div class="absolute top-0 right-0">
+      <div class="bg-amber-500 text-slate-950 font-extrabold text-xs uppercase px-4 py-1.5 rounded-bl-xl shadow-md">{badge}</div>
+    </div>
+  )}
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
+    <div class="lg:col-span-5 flex flex-col items-center">
+      <div class="w-full aspect-square rounded-xl bg-slate-950/60 border border-slate-800 p-4 flex items-center justify-center overflow-hidden">
+        <img src={image} alt={imageAlt} loading="lazy" class="max-h-full max-w-full object-contain" />
+      </div>
+      <div class="mt-4 flex items-center gap-2">
+        <div class="flex text-amber-400">
+          {stars.map((isFilled) => (
+            <span class={isFilled ? 'text-amber-400' : 'text-slate-700'}>★</span>
+          ))}
+        </div>
+        <span class="text-sm font-semibold text-slate-200">{rating.toFixed(1)}</span>
+        <span class="text-xs text-slate-400">({reviewCount} reviews)</span>
+      </div>
+    </div>
+    <div class="lg:col-span-7 flex flex-col justify-between h-full">
+      <div>
+        <h3 class="text-xl sm:text-2xl font-bold text-slate-100 pr-12">{title}</h3>
+        {price && <div class="mt-2 text-lg font-bold text-amber-400">{price}</div>}
+        <ul class="mt-4 space-y-2">
+          {features.map((feat) => (
+            <li class="flex items-start text-sm text-slate-300">
+              <span class="text-amber-400 mr-2">✓</span>{feat}
+            </li>
+          ))}
+        </ul>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+          <div class="rounded-xl border border-emerald-500/20 bg-emerald-950/10 p-3.5">
+            <div class="text-xs font-bold text-emerald-400 mb-2">Pros</div>
+            <ul class="space-y-1.5 text-xs text-slate-300">{pros.map((p) => <li>• {p}</li>)}</ul>
+          </div>
+          <div class="rounded-xl border border-rose-500/20 bg-rose-950/10 p-3.5">
+            <div class="text-xs font-bold text-rose-400 mb-2">Cons</div>
+            <ul class="space-y-1.5 text-xs text-slate-300">{cons.map((c) => <li>• {c}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center gap-3">
+        <a href={amazonUrl} target="_blank" rel="nofollow sponsored noopener" class="w-full sm:flex-1 inline-flex min-h-[48px] items-center justify-center rounded-xl bg-amber-500 px-6 py-3 text-sm font-extrabold text-slate-950 hover:bg-amber-400 transition-all">
+          View Price on Amazon →
+        </a>
+      </div>
+      <p class="mt-2.5 text-[11px] text-slate-500">As an Amazon Associate, TechieOffice earns from qualifying purchases.</p>
+    </div>
+  </div>
+</div>
