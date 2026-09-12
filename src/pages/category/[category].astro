@@ -13,9 +13,11 @@ export async function getStaticPaths() {
 
   return categories.map(cat => {
     const slug = cat.toLowerCase().replace(/\s+/g, '-');
-    const filteredPosts = allPosts.filter(p => 
-      p.data.category.toLowerCase().replace(/\s+/g, '-') === slug
-    );
+    const filteredPosts = allPosts.filter(p => {
+      const cat = p?.data?.category;
+      if (typeof cat !== 'string') return false;
+      return cat.toLowerCase().replace(/\s+/g, '-') === slug;
+    });
 
     return {
       params: { category: slug },

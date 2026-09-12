@@ -1,17 +1,16 @@
 ---
-export interface Props { title: string; rating: number; price?: string; amazonUrl: string; }
-const { title, rating, price, amazonUrl } = Astro.props;
+interface Props {
+  title?: string;
+  buttonText?: string;
+  affiliateUrl?: string;
+  rating?: number;
+  // ... other props
+}
+
+const { 
+  title = "Ready to upgrade?", 
+  buttonText = "Check Price", 
+  affiliateUrl = "#", 
+  rating = 4.8 
+} = Astro.props;
 ---
-<div id="sticky-mobile-bar" class="fixed bottom-0 inset-x-0 z-50 border-t border-slate-800 bg-slate-950/95 p-3 backdrop-blur-md transition-transform duration-300 translate-y-full md:hidden">
-  <div class="flex items-center justify-between gap-3 max-w-md mx-auto">
-    <div class="flex flex-col min-w-0">
-      <span class="text-xs font-bold text-slate-200 truncate">{title}</span>
-      <span class="text-amber-400 text-xs">★ {rating.toFixed(1)} {price ? `• ${price}` : ''}</span>
-    </div>
-    <a href={amazonUrl} target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-xs font-extrabold text-slate-950">Check Price</a>
-  </div>
-</div>
-<script>
-  const bar = document.getElementById('sticky-mobile-bar');
-  if (bar) window.addEventListener('scroll', () => bar.classList.toggle('translate-y-full', window.scrollY <= 400), { passive: true });
-</script>

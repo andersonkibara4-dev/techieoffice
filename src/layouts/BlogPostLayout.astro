@@ -13,7 +13,7 @@ const { title, description, pubDate, heroImage, category, author, topProduct } =
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <SEO title={title} description={description} heroImage={heroImage} pubDate={pubDate} authorName={author.name} category={category} type="article" />
+    <SEO title={title} description={description} heroImage={heroImage} pubDate={pubDate} authorName={author?.name} category={category} type="article" />
   </head>
   <body class="min-h-screen flex flex-col font-sans">
     <Header />
@@ -30,7 +30,7 @@ const { title, description, pubDate, heroImage, category, author, topProduct } =
         <slot />
       </div>
     </main>
-    {topProduct && <StickyMobileCTA title={topProduct.name} rating={topProduct.rating} price={topProduct.price} amazonUrl={topProduct.amazonUrl} />}
+    {topProduct && <StickyMobileCTA title={topProduct.name} rating={topProduct.rating} buttonText={topProduct.buttonText} affiliateUrl={topProduct.affiliateUrl} />}
     <Footer />
   </body>
 </html>

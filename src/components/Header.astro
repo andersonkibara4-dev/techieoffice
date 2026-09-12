@@ -1,13 +1,12 @@
 ---
 const navItems = [
-  { name: 'Home', href: '/' },
   { name: 'Desk Setups', href: '/category/desk-setups' },
   { name: 'Organization', href: '/category/organization' },
   { name: 'Ergonomics', href: '/category/ergonomics' },
   { name: 'Lighting', href: '/category/lighting' },
 ];
 ---
-<header class="fixed top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+<header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
     <a href="/" class="flex items-center gap-3 group focus:outline-none">
       <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20">
@@ -19,6 +18,11 @@ const navItems = [
       </div>
     </a>
     <nav class="hidden md:flex items-center gap-8">
+      
+        <a href="/" class="hover:text-amber-500 font-medium">Home</a>
+        <a href="/blog" class="hover:text-amber-500 font-medium">Blog</a>
+        <!-- Other links -->
+
       {navItems.map((item) => (
         <a href={item.href} class="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">{item.name}</a>
       ))}
@@ -30,4 +34,3 @@ const navItems = [
     </div>
   </div>
 </header>
-<div class="h-20" aria-hidden="true"></div>
