@@ -2,3 +2,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Increase base font size for improved readability. Uses rem-based sizing across Tailwind. */
+html {
+	font-size: 18px;
+}
+
+@media (min-width: 768px) {
+	html {
+		font-size: 19px;
+	}
+}
