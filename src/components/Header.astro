@@ -4,12 +4,13 @@ const navItems = [
   { name: 'Organization', href: '/category/organization' },
   { name: 'Ergonomics', href: '/category/ergonomics' },
   { name: 'Lighting', href: '/category/lighting' },
+  { name: 'Declutterin Blog', href: '/blog/declutterin-blog' },
 ];
 ---
-<header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+<header class="reveal sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
     <a href="/" class="flex items-center gap-3 group focus:outline-none">
-      <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20">
+      <div class="logo-mark flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20">
         TO
       </div>
       <div class="flex flex-col">
@@ -19,16 +20,16 @@ const navItems = [
     </a>
     <nav class="hidden md:flex items-center gap-8">
       
-        <a href="/" class="hover:text-amber-500 font-medium">Home</a>
-        <a href="/blog" class="hover:text-amber-500 font-medium">Blog</a>
+        <a href="/" class="nav-link hover:text-amber-500 font-medium">Home</a>
+        <a href="/blog" class="nav-link hover:text-amber-500 font-medium">Blog</a>
         <!-- Other links -->
 
       {navItems.map((item) => (
-        <a href={item.href} class="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">{item.name}</a>
+        <a href={item.href} class="nav-link text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">{item.name}</a>
       ))}
     </nav>
     <div class="hidden md:flex items-center">
-      <a href="/top-picks" class="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-md hover:bg-amber-400 transition-all">
+      <a href="/top-picks" class="motion-card inline-flex min-h-[48px] items-center justify-center rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-md hover:bg-amber-400 transition-all">
         2026 Top Picks
       </a>
     </div>

@@ -16,15 +16,15 @@ const allPosts = await getCollection('blog');
   <body class="min-h-screen flex flex-col font-sans">
     <Header />
     <main class="flex-grow max-w-7xl mx-auto px-4 py-16 w-full">
-      <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="reveal text-center max-w-3xl mx-auto mb-16">
         <h1 class="text-4xl sm:text-6xl font-black text-slate-100">Intentional Workspaces for <span class="text-amber-400">Deep Work</span>.</h1>
         <p class="mt-6 text-slate-400 text-lg">Field-tested, unbiased reviews built by developers.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {allPosts.map((post) => (
-          <article class="rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col justify-between">
+          <article class={`reveal reveal-delay-${(allPosts.indexOf(post) % 3) + 1} motion-card rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col justify-between`}>
             <a href={`/blog/${post.slug}`} class="aspect-video block bg-slate-950">
-              <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover" />
+              <img src={post.data.heroImage} alt={post.data.title} class="motion-image w-full h-full object-cover" />
             </a>
             <div class="p-6">
               <span class="text-amber-400 text-xs font-bold uppercase">{post.data.category}</span>
