@@ -6,6 +6,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const allPosts = await getCollection('blog');
+const recentPosts = [...allPosts]
+  .sort((firstPost, secondPost) => secondPost.data.pubDate.valueOf() - firstPost.data.pubDate.valueOf())
+  .slice(0, 2);
 ---
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth bg-slate-950 text-slate-100 antialiased">
@@ -15,23 +18,171 @@ const allPosts = await getCollection('blog');
   </head>
   <body class="min-h-screen flex flex-col font-sans">
     <Header />
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-16 w-full">
-      <div class="reveal text-center max-w-3xl mx-auto mb-16">
-        <h1 class="text-4xl sm:text-6xl font-black text-slate-100">Intentional Workspaces for <span class="text-amber-400">Deep Work</span>.</h1>
-        <p class="mt-6 text-slate-400 text-lg">Field-tested, unbiased reviews built by developers.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {allPosts.map((post) => (
-          <article class={`reveal reveal-delay-${(allPosts.indexOf(post) % 3) + 1} motion-card rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col justify-between`}>
-            <a href={`/blog/${post.slug}`} class="aspect-video block bg-slate-950">
-              <img src={post.data.heroImage} alt={post.data.title} class="motion-image w-full h-full object-cover" />
-            </a>
-            <div class="p-6">
-              <span class="text-amber-400 text-xs font-bold uppercase">{post.data.category}</span>
-              <h3 class="text-lg font-bold text-slate-100 mt-2"><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+    <main class="flex-grow w-full">
+      <section class="hero-shell relative isolate overflow-hidden border-b border-slate-800 bg-slate-950">
+        <div class="absolute inset-0">
+          <img src="https://cdn.pixabay.com/photo/2023/03/04/21/12/ai-generated-7830141_960_720.jpg" alt="Woman working in a modern office with plants" class="hero-visual h-full w-full object-cover scale-[1.08]" />
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-950/25"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.32),transparent_28%)]"></div>
+        </div>
+
+        <div class="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:py-28 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-32">
+          <div class="max-w-2xl reveal">
+            <span class="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-amber-300 backdrop-blur-sm">
+              Intentional living
+            </span>
+            <h1 class="mt-6 text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
+              Intentional Workspaces for <span class="text-amber-400">Deep Work</span>.
+            </h1>
+            <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-200 sm:text-lg">
+              Field-tested, unbiased reviews built by developers and creators for calmer, more productive spaces.
+            </p>
+
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+              <a href="/blog" class="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5 hover:bg-amber-400">
+                Explore guides →
+              </a>
+              <a href="/category/desk-setups" class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10">
+                Browse desk setups
+              </a>
             </div>
+
+            <div class="mt-8 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.22em] text-slate-300/80">
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2">No fluff</span>
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2">No affiliate bias</span>
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2">Built for focus</span>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-1 relative flex items-center justify-center lg:justify-end">
+            <div class="hero-visual-card relative w-full max-w-md rounded-[2rem] border border-white/10 bg-slate-950/30 p-4 shadow-[0_35px_80px_rgba(2,6,23,0.6)] backdrop-blur-md">
+              <div class="rounded-[1.5rem] border border-white/10 bg-slate-900/60 p-3">
+                <div class="grid grid-cols-2 gap-3">
+                  {recentPosts.map((post) => (
+                    <a href={`/blog/${post.slug}`} class="group relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-slate-950">
+                      <img src={post.data.heroImage} alt={post.data.title} class="hero-post-image h-64 w-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+                      <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent px-3 pb-3 pt-12 text-xs font-bold leading-snug text-white">{post.data.title}</span>
+                    </a>
+                  ))}
+                </div>
+
+                <div class="mt-4 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-300/80">
+                  <span>Latest field notes</span>
+                  <span class="rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-1 text-[10px] font-bold text-amber-300">Editor’s pick</span>
+                </div>
+              </div>
+
+              <div class="floating-stat floating-stat-top glass-panel absolute -left-5 top-10 rounded-2xl border border-white/10 px-4 py-3 text-slate-100 shadow-xl">
+                <div class="text-[10px] uppercase tracking-[0.24em] text-slate-300">Average score</div>
+                <div class="mt-1 flex items-end gap-2">
+                  <span class="text-2xl font-black text-white">4.9</span>
+                  <span class="pb-1 text-xs text-amber-300">/5</span>
+                </div>
+              </div>
+
+              <div class="floating-stat floating-stat-bottom glass-panel absolute -right-4 bottom-12 rounded-2xl border border-white/10 px-4 py-3 text-slate-100 shadow-xl">
+                <div class="text-[10px] uppercase tracking-[0.24em] text-slate-300">Focus gain</div>
+                <div class="mt-1 flex items-end gap-2">
+                  <span class="text-2xl font-black text-white">+31%</span>
+                  <span class="pb-1 text-xs text-emerald-300">boost</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center text-[10px] font-bold uppercase tracking-[0.25em] text-slate-200/80 md:flex">
+          <span>Scroll</span>
+          <span class="mt-3 block h-10 w-px bg-white/60"></span>
+          <span class="mt-2 block h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_18px_rgba(251,191,36,0.9)]"></span>
+        </div>
+      </section>
+
+      <div class="border-b border-slate-800 bg-slate-950/80">
+        <div class="mx-auto max-w-7xl px-4 py-5">
+          <div class="logo-strip grid grid-cols-2 gap-4 text-center text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:grid-cols-4">
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-3">Workspace Lab</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-3">Northline</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-3">Focus Daily</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-3">Studio North</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mx-auto max-w-7xl px-4 py-20">
+        <div class="mb-10 flex flex-col gap-4 text-center">
+          <span class="text-xs font-bold uppercase tracking-[0.28em] text-amber-300">Why it works</span>
+          <h2 class="text-3xl font-black tracking-tight text-white sm:text-5xl">Built for clarity, comfort, and focus.</h2>
+        </div>
+
+        <div class="benefit-grid grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <article class="benefit-card rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-[0_20px_50px_rgba(2,6,23,0.28)] transition-all hover:-translate-y-1 hover:border-amber-400/40">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-xl text-amber-300">01</div>
+            <h3 class="text-xl font-bold text-white">Better layout decisions</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">We compare real desk setups, not just specs, to help you build a calmer workflow.</p>
           </article>
-        ))}
+
+          <article class="benefit-card rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-[0_20px_50px_rgba(2,6,23,0.28)] transition-all hover:-translate-y-1 hover:border-amber-400/40">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-xl text-amber-300">02</div>
+            <h3 class="text-xl font-bold text-white">Fewer distractions</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">Thoughtful layouts reduce clutter and help your setup feel intentional instead of noisy.</p>
+          </article>
+
+          <article class="benefit-card rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-[0_20px_50px_rgba(2,6,23,0.28)] transition-all hover:-translate-y-1 hover:border-amber-400/40">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-xl text-amber-300">03</div>
+            <h3 class="text-xl font-bold text-white">Healthier ergonomics</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">From monitor height to lighting, we flag the upgrades that help you stay productive longer.</p>
+          </article>
+
+          <article class="benefit-card rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-[0_20px_50px_rgba(2,6,23,0.28)] transition-all hover:-translate-y-1 hover:border-amber-400/40">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-xl text-amber-300">04</div>
+            <h3 class="text-xl font-bold text-white">Premium build quality</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">We prioritize durable, minimal setups that look polished and perform well over time.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="border-t border-slate-800 bg-slate-900/60">
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-20 md:grid-cols-[1fr_1.1fr] md:items-center">
+          <div class="pr-0 md:pr-8">
+            <span class="text-xs font-bold uppercase tracking-[0.28em] text-amber-300">Reader note</span>
+            <h2 class="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">A better desk setup should feel effortless.</h2>
+            <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-300">We review the gear, layout choices, and habits that truly change how your workday feels — without the noise of generic “best of” lists.</p>
+          </div>
+
+          <div class="glass-panel rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_35px_70px_rgba(15,23,42,0.5)]">
+            <div class="flex items-center gap-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/15 text-lg font-black text-amber-300">A</div>
+              <div>
+                <div class="text-sm font-bold text-white">Alicia M.</div>
+                <div class="text-xs uppercase tracking-[0.2em] text-slate-400">Product Designer</div>
+              </div>
+            </div>
+
+            <p class="mt-5 text-lg leading-relaxed text-slate-200">“This site helped me simplify my workspace without sacrificing the tools I rely on. It feels premium, useful, and genuinely designed for real work.”</p>
+
+            <div class="mt-6 flex items-center gap-2 text-amber-300">
+              <span>★★★★★</span>
+              <span class="text-xs uppercase tracking-[0.2em] text-slate-400">Verified reader</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="mx-auto max-w-7xl px-4 py-16 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {allPosts.map((post) => (
+            <article class={`reveal reveal-delay-${(allPosts.indexOf(post) % 3) + 1} motion-card rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col justify-between`}>
+              <a href={`/blog/${post.slug}`} class="aspect-video block bg-slate-950">
+                <img src={post.data.heroImage} alt={post.data.title} class="motion-image w-full h-full object-cover" />
+              </a>
+              <div class="p-6">
+                <span class="text-amber-400 text-xs font-bold uppercase">{post.data.category}</span>
+                <h3 class="text-lg font-bold text-slate-100 mt-2"><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </main>
     <Footer />
